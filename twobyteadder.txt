@@ -1,0 +1,49 @@
+#HEAD:
+# First word: left side of tape. Second word: middle of tape. Third word: right side of tape
+_ 0 0000001_00000011c0
+#
+#
+
+# Initial Command: Program begins with 0.
+0 * * < 88
+
+#Shifting Commands.
+88 * * > 87
+87 * * > 86
+86 * * > 85
+85 * * > 84
+84 * * > 83
+83 * * > 82
+82 * * > 81
+81 * * > 10
+
+#if 0, skip that addition.
+#if 1, clear it and add it to the corresponding place
+#if asked to add at an empty place, end!
+10 0 * < 10
+10 1 0 - 891
+10 _ * > -1
+
+#Shift and Add commands.
+901 * * > 891
+891 * * > 881
+881 * * > 871
+871 * * > 861
+861 * * > 851
+851 * * > 841
+841 * * > 831
+831 * * > 821
+821 * * > 811
+811 * * > 71
+
+
+#The actual addition process. 1 + 1 = 0 with a carry. 0 + 1 = 1, no carry.
+#Asking to add into an empty zone brings you back to the first number.
+#The place is empty, so you skip it (see above) and recur.
+71 0 1 < 5
+71 1 0 < 71
+71 _ * - 901
+
+#Brings you backwards after adding a final 1+0 successfully.
+5 _ * < 10
+5 * * < 5
